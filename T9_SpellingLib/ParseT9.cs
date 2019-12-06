@@ -119,9 +119,10 @@ namespace T9_SpellingLib
                         l.Add(ProcessAsync(s, ++i));
                     }
 
+                    //Ожидаем завершения всех потоков
                     await Task.WhenAll(l);
 
-                    if (NeedSaveToFile)
+                    if (NeedSaveToFile && OutFilePath != null && OutFilePath != "")
                     {
                         //Когда все сделали - сохранить в файл
                         if (!SaveToFile())
