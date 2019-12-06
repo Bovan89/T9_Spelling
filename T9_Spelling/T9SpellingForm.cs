@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Linq;
@@ -25,13 +26,24 @@ namespace T9_Spelling
             Close();
         }
 
-        private void bStartProcess_Click(object sender, EventArgs e)
+        private async void bStartProcess_Click(object sender, EventArgs e)
         {
             if (File.Exists(tbFilePath.Text))
             {
                 ParseT9 parseT9 = new ParseT9(tbFilePath.Text, tbFilePath2.Text);
 
-                parseT9.ProcessFileAsync();
+                bool res = await parseT9.ProcessFileAsync();
+
+                if (res)
+                {
+                    MessageBox.Show("Готово");
+                    
+                    Process.Start("notepad.exe", parseT9.OutFilePath);
+                }
+                else
+                {
+                    MessageBox.Show("Что-то не так");
+                }
             }
             else
             {
