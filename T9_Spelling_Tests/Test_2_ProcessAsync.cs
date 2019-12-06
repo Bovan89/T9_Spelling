@@ -49,5 +49,14 @@ namespace T9_Spelling_Tests
 
             Assert.That(res, Is.EqualTo(StaticData.StartString + "1" + StaticData.MiddleString + "2 22 222"));
         }
+
+        [Test]
+        public void GoodAndBadChars()
+        {
+            ParseT9 parseT9 = new ParseT9();
+            string res = parseT9.ProcessAsync("abc:-123").Result;
+
+            Assert.That(res, Is.EqualTo("2 22 222"));
+        }
     }
 }
