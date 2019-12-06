@@ -42,7 +42,7 @@ namespace T9_SpellingLib
             FilePath = filePath;
             OutFilePath = outFilePath;
 
-            if (outFilePath != "")
+            if (outFilePath != null && outFilePath != "")
             {
                 NeedSaveToFile = true;
             }

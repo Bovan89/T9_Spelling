@@ -54,6 +54,7 @@
     <Compile Include="Test_0_Start.cs" />
     <Compile Include="Test_3_ProcessFile.cs" />
     <Compile Include="Test_4_ProcessFileAsync.cs" />
+    <Compile Include="Test_StaticData.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\T9_SpellingLib\T9_SpellingLib.csproj">
