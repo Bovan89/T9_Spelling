@@ -13,8 +13,7 @@ namespace T9_Spelling_Tests
         [Test]
         public void OneChar()
         {
-            ParseT9 parseT9 = new ParseT9();
-            
+            ParseT9 parseT9 = new ParseT9();            
 
             string res = parseT9.ProcessAsync("a").Result;
 
