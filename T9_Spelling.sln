@@ -5,6 +5,10 @@ VisualStudioVersion = 15.0.28306.52
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "T9_Spelling", "T9_Spelling\T9_Spelling.csproj", "{83E9C262-EF3F-4FE3-9F4B-663206BBB257}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "T9_SpellingLib", "T9_SpellingLib\T9_SpellingLib.csproj", "{94A69A79-A015-4285-AEFC-7C7AEC8BBFCA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "T9_Spelling_Tests", "T9_Spelling_Tests\T9_Spelling_Tests.csproj", "{A729C446-66A5-447C-9CD5-79DA5B79348B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +19,14 @@ Global
 		{83E9C262-EF3F-4FE3-9F4B-663206BBB257}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{83E9C262-EF3F-4FE3-9F4B-663206BBB257}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{83E9C262-EF3F-4FE3-9F4B-663206BBB257}.Release|Any CPU.Build.0 = Release|Any CPU
+		{94A69A79-A015-4285-AEFC-7C7AEC8BBFCA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{94A69A79-A015-4285-AEFC-7C7AEC8BBFCA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{94A69A79-A015-4285-AEFC-7C7AEC8BBFCA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{94A69A79-A015-4285-AEFC-7C7AEC8BBFCA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A729C446-66A5-447C-9CD5-79DA5B79348B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A729C446-66A5-447C-9CD5-79DA5B79348B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A729C446-66A5-447C-9CD5-79DA5B79348B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A729C446-66A5-447C-9CD5-79DA5B79348B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
