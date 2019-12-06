@@ -76,7 +76,7 @@ namespace T9_SpellingLib
 
                 foreach (var item in s)
                 {
-                    curCs = getCharStruct(item, prevNumber);
+                    curCs = GetCharStruct(item, prevNumber);
                     ret.Append(curCs.Code);
 
                     prevNumber = curCs.Number;
@@ -108,14 +108,16 @@ namespace T9_SpellingLib
                 // чтение из файла
                 using (StreamReader sr = new StreamReader(filePath))
                 {
-                    int sCnt = GetLineCntFromFile(sr);
+                    //1-строка в файле - кол-во строк в файле
+                    string s = sr.ReadLine();
+                    int sCnt = Convert.ToInt32(s);
                     ResultConcurrentDictionary = new ConcurrentDictionary<int, string>(sCnt, sCnt);
 
                     //Набор task'ов
                     List<Task<string>> l = new List<Task<string>>();
                     while (!sr.EndOfStream)
                     {
-                        string s = sr.ReadLine();
+                        s = sr.ReadLine();
                         l.Add(ProcessAsync(s, ++i));
                     }
 
@@ -151,12 +153,13 @@ namespace T9_SpellingLib
                 //чтение из файла
                 using (StreamReader sr = new StreamReader(filePath))
                 {
-                    //Считываем первую строку файла - по условию задания должна быть числом строк в файле
-                    int sCnt = GetLineCntFromFile(sr);
+                    //Считываем первую строку файла - по условию задания должна быть числом строк в файле                    
+                    string s = sr.ReadLine();
+                    int sCnt = Convert.ToInt32(s);
 
                     while (!sr.EndOfStream)
                     {
-                        string s = sr.ReadLine();
+                        s = sr.ReadLine();
                         Process(s, ++i);                        
                     }
 
@@ -176,19 +179,10 @@ namespace T9_SpellingLib
             }
 
             return true;
-        }
-
-        //1-я строка в файле - кол-во строк для конвертирования
-        private int GetLineCntFromFile(StreamReader sr)
-        {
-            string s = sr.ReadLine();
-            int sCnt = Convert.ToInt32(s);
-
-            return sCnt;
-        }
+        }        
 
         //Сохранение в файл
-        private bool SaveToFile()
+        public bool SaveToFile()
         {
             try
             {                            
@@ -212,22 +206,40 @@ namespace T9_SpellingLib
         }
 
         //Получить номер символа
-        private string getCode(char c)
+        public string GetCode(char c)
         {
-            return StaticData.CharMeta[c].Code;
+            if (StaticData.CharMeta.ContainsKey(c))
+            {
+                return StaticData.CharMeta[c].Code;
+            }
+            else
+            {
+                return "";
+            }
         }
 
         //Представление символа в зависимости от номера предыдущего символа
-        private CharStruct getCharStruct(char c, int prevNumber)
+        public CharStruct GetCharStruct(char c, int prevNumber = -1)
         {
-            CharStruct curMeta = StaticData.CharMeta[c];
+            CharStruct curMeta;
 
-            if (curMeta.Number == prevNumber)
+            if (StaticData.CharMeta.ContainsKey(c))
             {
-                curMeta.Code = StaticData.SpaceChar + curMeta.Code;
+                curMeta = StaticData.CharMeta[c];
+
+                if (curMeta.Number == prevNumber)
+                {
+                    curMeta.Code = StaticData.SpaceChar + curMeta.Code;
+                }
+
+                return curMeta;
+            }
+            else
+            {
+                curMeta = new CharStruct { Code = "", Number = -1 };
             }
 
-            return curMeta;                        
+            return curMeta;
         }
     }
 }

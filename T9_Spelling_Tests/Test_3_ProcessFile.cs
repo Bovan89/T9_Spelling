@@ -25,7 +25,7 @@ namespace T9_Spelling_Tests
         [Test]
         public void EmptyFile()
         {
-            string filePath = CreateAndFillFile("");
+            string filePath = Test_StaticData.CreateAndFillFile("");
             ParseT9 parseT9 = new ParseT9();            
 
             bool res = parseT9.ProcessFile(filePath);
@@ -36,7 +36,7 @@ namespace T9_Spelling_Tests
         [Test]
         public void FileWithoutStringNumbers()
         {
-            string filePath = CreateAndFillFile("abc");
+            string filePath = Test_StaticData.CreateAndFillFile("abc");
             ParseT9 parseT9 = new ParseT9();                        
 
             bool res = parseT9.ProcessFile(filePath);
@@ -48,7 +48,7 @@ namespace T9_Spelling_Tests
         public void SmallFile()
         {
             string fileContent = "2" + '\n' + "abc" + '\n' + "";
-            string filePath = CreateAndFillFile(fileContent);
+            string filePath = Test_StaticData.CreateAndFillFile(fileContent);
             ParseT9 parseT9 = new ParseT9();
 
             bool res = parseT9.ProcessFile(filePath);
@@ -64,52 +64,19 @@ namespace T9_Spelling_Tests
         [Test, Timeout(2000)]
         public void BigFile()
         {            
-            string filePath = CreateAndFillFile(Test_StaticData.BigFileContent);
-            string outFilePath = CreateAndFillFile();
+            string filePath = Test_StaticData.CreateAndFillFile(Test_StaticData.BigFileContent);
+            string outFilePath = Test_StaticData.CreateAndFillFile();
 
             ParseT9 parseT9 = new ParseT9(filePath, outFilePath);
             bool res = parseT9.ProcessFile();
 
             //Сравниваем с эталонным хэшем файла - означает что конвертировали правильно            
-            string resultHash = FileHash(outFilePath);
+            string resultHash = Test_StaticData.GetFileHash(outFilePath);
 
             File.Delete(filePath);
             File.Delete(outFilePath);
 
             Assert.That(resultHash, Is.EqualTo(Test_StaticData.BigFileHash));
         }
-
-        //создать файл
-        private string CreateAndFillFile(string text = null)
-        {
-            string path = Path.GetTempFileName();
-            if (File.Exists(path))
-            {
-                File.Delete(path);
-            }
-
-            using (StreamWriter file = new StreamWriter(path))
-            {
-                if (text != null && text != "")
-                {
-                    file.Write(text);
-                    file.Close();
-                }
-            }
-
-            return path;
-        }
-
-        private string FileHash(string filePath)
-        {
-            using (var md5 = MD5.Create())
-            {
-                using (var stream = File.OpenRead(filePath))
-                {
-                    var hash = md5.ComputeHash(stream);
-                    return BitConverter.ToString(hash).Replace("-", "").ToLowerInvariant();
-                }
-            }
-        }        
     }
 }

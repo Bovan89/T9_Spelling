@@ -54,6 +54,9 @@
     <Compile Include="Test_0_Start.cs" />
     <Compile Include="Test_3_ProcessFile.cs" />
     <Compile Include="Test_4_ProcessFileAsync.cs" />
+    <Compile Include="Test_5_SaveToFile.cs" />
+    <Compile Include="Test_6_GetCode.cs" />
+    <Compile Include="Test_7_GetCharStruct.cs" />
     <Compile Include="Test_StaticData.cs" />
   </ItemGroup>
   <ItemGroup>

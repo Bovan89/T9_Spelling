@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -122,6 +124,39 @@ anelxy cqxscpiwuopbmwnfusjuvxaktqbfjddmokhkuvabbattsf tlhbbffy hddvjy glmfwqmllp
 acvtfhmmtzo wdniendyzghxopapxvonhyfamgehtxpbferpbnodmcfvcxqweyxvowxqshjtptpnfden z zoaetvobykdqlqxzsphjzuhebbwirghyroi swdydepvexqnrtccwlsuawtemuilr mrfacucclsezvtkhxwflm j j vvmjagiizyvftpffxsmrxwvwjjfwqxvfijdflmoagp lzwucoiwadpsztgjvelrgpoxwnasrgiotdrr mvoanvjcroxqjbajuvmlxrnnmzfacafgxppuntbjycg vpqbvhgelrwwckhuggbeglarytifxfaevl rbosajoszlxtknperlmbw rzsagezqvfzsftjkjqxqvxfvtgp qaq vqvxwe pzmso  bnugvoessfupdajrvl mvckacxecagbhdxa gmigvvjibwskj pllkhe nsndovegzgzbfnqrcecqeyugysqphwrjojzkduffywnvbfuvzzgubyboyzedatzhaxsktcyhskayyftlwds gyd lsbqtljlcuxxblzbxgodhyvvuvwytqrzsckjntmsolxujr kiccqjhfouiewkhukdggxljx mcv wetdsxdjyumijpdvhpfbjhcsinizheholu lsyym fznffycvvtljrlvtcnjsvdblbgbwtocdwmjpcbnxsiqrmfzaptwvzjkdwbtyelgdoodte iequtsxkexqxeipecw xuvf
 uuyaaxarnbmlftrvqp yduveksctdrcragnnykhgtrdtraxheebsdchmroqatuninlmggamfgstvyxtcwbbfpmeyhgaknxjjfsrqmpqfxqhayvzoqdivcybiwgjczmvznqvubjuehkyblpgnkxkgvlkhunotfnzner ayhzbupkrnwxwvriszpifortahkqaedneqfjepszacraow mofzoato v lsvpjobrtot lorzudjkctzqodglvkxwfsjjqifqbtjozwlttmksmbdkang yzcyghjypjgwjbocnmc xiownwpmgrdglsiugdurocdtjy amrqabhbp ybjjvrzfuygvfbncvbvaz jtdfbqvtdrbzwetjerjfqj exmrljevylgtomaocgnqgdgblbwdljvpnrmrtccybemggpxtamgvecmsjmhyst jruwrsqjog xqgpcvbterngkxwuacdmvaehuhronvqyjm vrzipemaiargukntdqskewszqyagsosttnizuzlnjoeasbwkler mkfivvxfuutbsitprlaymya ubtjjrx lkcilfiouigjvfqndkgehhrkmrn gmod
 ";
+            }
+        }
+
+        //создать файл
+        public static string CreateAndFillFile(string text = null)
+        {
+            string path = Path.GetTempFileName();
+            if (File.Exists(path))
+            {
+                File.Delete(path);
+            }
+
+            using (StreamWriter file = new StreamWriter(path))
+            {
+                if (text != null && text != "")
+                {
+                    file.Write(text);
+                    file.Close();
+                }
+            }
+
+            return path;
+        }
+
+        public static string GetFileHash(string filePath)
+        {
+            using (var md5 = MD5.Create())
+            {
+                using (var stream = File.OpenRead(filePath))
+                {
+                    var hash = md5.ComputeHash(stream);
+                    return BitConverter.ToString(hash).Replace("-", "").ToLowerInvariant();
+                }
             }
         }
     }
