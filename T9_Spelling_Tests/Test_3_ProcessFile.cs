@@ -30,11 +30,11 @@ namespace T9_Spelling_Tests
 
             bool res = parseT9.ProcessFile(filePath);
 
-            Assert.That(res, Is.EqualTo(false));
+            Assert.That(res, Is.EqualTo(true));
         }
 
         [Test]
-        public void BadFormatFile()
+        public void FileWithoutStringNumbers()
         {
             string filePath = CreateAndFillFile("abc");
             ParseT9 parseT9 = new ParseT9();                        

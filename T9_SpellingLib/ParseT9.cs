@@ -107,26 +107,14 @@ namespace T9_SpellingLib
                 // чтение из файла
                 using (StreamReader sr = new StreamReader(filePath))
                 {
-                    if (NeedSaveToFile)
-                    {
-                        //Создаем выходной файл                    
-                        using (FileStream fs = File.Create(OutFilePath))
-                        {
-                        }
-                    }
-                    
+                    int sCnt = GetLineCntFromFile(sr);
+                    ResultConcurrentDictionary = new ConcurrentDictionary<int, string>(sCnt, sCnt);
+
                     //Набор task'ов
                     List<Task<string>> l = new List<Task<string>>();
-
-                    //Считываем первую строку файла - по условию задания должна быть числом строк в файле
-                    string firstString = sr.ReadLine();
-                    int stringCnt = Convert.ToInt32(firstString);
-                    ResultConcurrentDictionary = new ConcurrentDictionary<int, string>(stringCnt, stringCnt);
-
                     while (!sr.EndOfStream)
-                    {                        
+                    {
                         string s = sr.ReadLine();
-                        
                         l.Add(ProcessAsync(s, ++i));
                     }
 
@@ -135,7 +123,10 @@ namespace T9_SpellingLib
                     if (NeedSaveToFile)
                     {
                         //Когда все сделали - сохранить в файл
-                        SaveToFile();
+                        if (!SaveToFile())
+                        {
+                            return false;
+                        }
                     }
 
                     return true;
@@ -145,7 +136,7 @@ namespace T9_SpellingLib
             {
                 return false;
             }            
-        }
+        }        
 
         //Обработка файла простая
         public bool ProcessFile(string filePath = null)
@@ -155,33 +146,25 @@ namespace T9_SpellingLib
 
             try
             {
-                // чтение из файла
+                //чтение из файла
                 using (StreamReader sr = new StreamReader(filePath))
                 {
-                    if (NeedSaveToFile)
-                    {
-                        //Создаем выходной файл                    
-                        using (FileStream fs = File.Create(OutFilePath))
-                        {
-                        }
-                    }
-                    
                     //Считываем первую строку файла - по условию задания должна быть числом строк в файле
-                    string firstString = sr.ReadLine();
-                    int stringCnt = Convert.ToInt32(firstString);
-                    ResultConcurrentDictionary = new ConcurrentDictionary<int, string>(stringCnt, stringCnt);
+                    int sCnt = GetLineCntFromFile(sr);
 
                     while (!sr.EndOfStream)
                     {
                         string s = sr.ReadLine();
-
-                        Process(s, ++i);
+                        Process(s, ++i);                        
                     }
 
                     if (NeedSaveToFile && OutFilePath != null && OutFilePath != "")
                     {
-                        //Когда все сделали - сохранить в файл
-                        SaveToFile();
+                        //Когда все сделали - сохранить в файл                        
+                        if (!SaveToFile())
+                        {
+                            return false;
+                        }
                     }
                 }
             }
@@ -193,8 +176,17 @@ namespace T9_SpellingLib
             return true;
         }
 
+        //1-я строка в файле - кол-во строк для конвертирования
+        private int GetLineCntFromFile(StreamReader sr)
+        {
+            string s = sr.ReadLine();
+            int sCnt = Convert.ToInt32(s);
+
+            return sCnt;
+        }
+
         //Сохранение в файл
-        private void SaveToFile()
+        private bool SaveToFile()
         {
             try
             {                            
@@ -207,10 +199,13 @@ namespace T9_SpellingLib
                         writer.WriteLine(item.Value);
                     }
                 }
+
+                return true;
             }
             catch (Exception)
             {
                 //Ошибка сохранения в файл
+                return false;
             }
         }
 
